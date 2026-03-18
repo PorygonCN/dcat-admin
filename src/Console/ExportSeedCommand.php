@@ -32,7 +32,8 @@ class ExportSeedCommand extends Command
         $exceptFields = [];
         $exportUsers = $this->option('users');
 
-        $namespace = version_compare(app()->version(), '8.0.0', '<') ? 'seeds' : 'seeders';
+        // Laravel 12+ uses 'seeders' directory
+        $namespace = 'Seeders';
 
         $seedFile = $this->laravel->databasePath().'/'.$namespace.'/'.$name.'.php';
         $contents = $this->getStub('AdminTablesSeeder');

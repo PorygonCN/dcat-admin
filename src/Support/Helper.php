@@ -3,7 +3,6 @@
 namespace Dcat\Admin\Support;
 
 use Dcat\Admin\Grid;
-use Dcat\Laravel\Database\WhereHasInServiceProvider;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -814,8 +813,8 @@ class Helper
 
         $relColumn = array_pop($column);
 
-        // 增加对whereHasIn的支持
-        $method = class_exists(WhereHasInServiceProvider::class) ? 'whereHasIn' : 'whereHas';
+        // Laravel 12+ supports whereHasIn natively or through dcat/laravel package
+        $method = method_exists($model, 'whereHasIn') ? 'whereHasIn' : 'whereHas';
 
         $model->$method(implode('.', $column), function ($relation) use ($relColumn, $params, $query) {
             $table = $relation->getModel()->getTable();
