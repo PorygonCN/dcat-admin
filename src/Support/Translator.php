@@ -109,8 +109,9 @@ class Translator
 
     protected function getTranslateMethod()
     {
+        // Laravel 12+ only uses the 'get' method
         if (static::$method === null) {
-            static::$method = version_compare(app()->version(), '6.0', '>=') ? 'get' : 'trans';
+            static::$method = 'get';
         }
 
         return static::$method;

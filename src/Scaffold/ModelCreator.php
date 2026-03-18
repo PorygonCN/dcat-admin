@@ -171,12 +171,9 @@ class ModelCreator
      */
     protected function replaceDatetimeFormatter(&$stub)
     {
-        $import = $use = '';
-
-        if (version_compare(app()->version(), '7.0.0') >= 0) {
-            $import = 'use Dcat\\Admin\\Traits\\HasDateTimeFormatter;';
-            $use = 'use HasDateTimeFormatter;';
-        }
+        // Laravel 12+ includes HasDateTimeFormatter trait by default
+        $import = 'use Dcat\\Admin\\Traits\\HasDateTimeFormatter;';
+        $use = 'use HasDateTimeFormatter;';
 
         $stub = str_replace(['DummyImportDateTimeFormatterTrait', 'DummyUseDateTimeFormatterTrait'], [$import, $use], $stub);
 

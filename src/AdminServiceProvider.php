@@ -109,7 +109,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->ensureHttps();
         $this->bootApplication();
         $this->registerPublishing();
-        $this->compatibleBlade();
+        // Blade::withoutDoubleEncoding() is default in Laravel 12+
         $this->bootExtensions();
         $this->registerBladeDirective();
     }
@@ -145,19 +145,6 @@ class AdminServiceProvider extends ServiceProvider
     protected function bootApplication()
     {
         Admin::app()->boot();
-    }
-
-    /**
-     * 禁止laravel 5.6或更高版本中启用双编码的默认特性.
-     *
-     * @return void
-     */
-    protected function compatibleBlade()
-    {
-        $bladeReflectionClass = new \ReflectionClass('\Illuminate\View\Compilers\BladeCompiler');
-        if ($bladeReflectionClass->hasMethod('withoutDoubleEncoding')) {
-            Blade::withoutDoubleEncoding();
-        }
     }
 
     /**

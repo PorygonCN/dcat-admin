@@ -14,7 +14,6 @@ use Dcat\Admin\Grid\Filter\Presenter\Select;
 use Dcat\Admin\Grid\Filter\Presenter\Text;
 use Dcat\Admin\Grid\LazyRenderable;
 use Dcat\Admin\Traits\HasVariables;
-use Dcat\Laravel\Database\WhereHasInServiceProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -581,8 +580,8 @@ abstract class AbstractFilter
 
         $relColumn = is_callable($relColumn) ? $relColumn : $col;
 
-        // 增加对whereHasIn的支持
-        $method = class_exists(WhereHasInServiceProvider::class) ? 'whereHasIn' : 'whereHas';
+        // Laravel 12+ supports whereHasIn natively or through dcat/laravel package
+        $method = method_exists(app('db')->query(), 'whereHasIn') ? 'whereHasIn' : 'whereHas';
 
         return [$method => [implode('.', $column), function ($q) use ($relColumn, $params) {
             $relColumn = is_string($relColumn) ? $q->getModel()->getTable().'.'.$relColumn : $relColumn;
